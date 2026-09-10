@@ -155,75 +155,8 @@ struct ShelfContainerView: View {
 
     /// Circular 3-dots action menu button (top right)
     private var actionMenuButton: some View {
-        Menu {
-            if store.isEmpty {
-                Button {
-                    ShelfCoordinator.shared.spawnShelfAtCursor()
-                } label: {
-                    Label("New Shelf", systemImage: "plus.rectangle.on.rectangle")
-                }
-
-                Divider()
-
-                Button {
-                    NSApp.terminate(nil)
-                } label: {
-                    Label("Quit Dropover", systemImage: "power")
-                }
-            } else {
-                Button {
-                    QuickLookController.shared.togglePreview(for: store.items)
-                } label: {
-                    Label("Open with Preview", systemImage: "eye")
-                }
-
-                Button {
-                    if let first = store.items.first {
-                        NSWorkspace.shared.activateFileViewerSelecting([first.url])
-                    }
-                } label: {
-                    Label("Show in Finder", systemImage: "folder")
-                }
-
-                Divider()
-
-                Button {
-                    shareItems()
-                } label: {
-                    Label("Share...", systemImage: "square.and.arrow.up")
-                }
-
-                Divider()
-
-                let actions = actionEngine.availableActions(for: store.items)
-                if !actions.isEmpty {
-                    Section("Actions") {
-                        ForEach(actions) { action in
-                            Button {
-                                actionEngine.execute(action, on: store.items) { resultItems in
-                                    store.removeAll()
-                                    store.addItems(resultItems)
-                                }
-                            } label: {
-                                Label(action.displayName, systemImage: action.systemImage)
-                            }
-                        }
-                    }
-                    Divider()
-                }
-
-                Button {
-                    copyPathsToClipboard()
-                } label: {
-                    Label("Copy Paths", systemImage: "doc.on.clipboard")
-                }
-
-                Button(role: .destructive) {
-                    store.removeAll()
-                } label: {
-                    Label("Clear All Items", systemImage: "trash")
-                }
-            }
+        Button {
+            ActionMenuHelper.shared.showMenu(for: store, actionEngine: actionEngine)
         } label: {
             ZStack {
                 Circle()
@@ -234,15 +167,12 @@ struct ShelfContainerView: View {
                             .stroke(Color.white.opacity(0.55), lineWidth: 1.2)
                     )
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 14, weight: .heavy))
+                    .font(.system(size: 13, weight: .black))
                     .foregroundColor(.white)
-                    .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: 0)
             }
             .contentShape(Circle())
         }
-        .menuStyle(.borderlessButton)
-        .menuIndicator(.hidden)
-        .fixedSize()
+        .buttonStyle(.plain)
         .help("Actions Menu")
     }
 
@@ -423,3 +353,116 @@ struct ShelfContainerView: View {
         return (try? FileManager.default.attributesOfItem(atPath: url.path))?[.size] as? Int64
     }
 }
+
+// MARK: - ActionMenuHelper
+
+final class ActionMenuHelper: NSObject {
+    static let shared = ActionMenuHelper()
+
+    private weak var store: ShelfStore?
+    private weak var actionEngine: BatchActionEngine?
+
+    func showMenu(for store: ShelfStore, actionEngine: BatchActionEngine) {
+        self.store = store
+        self.actionEngine = actionEngine
+
+        let menu = NSMenu()
+
+        if store.isEmpty {
+            let newShelfItem = NSMenuItem(title: "New Shelf", action: #selector(newShelf), keyEquivalent: "")
+            newShelfItem.target = self
+            menu.addItem(newShelfItem)
+
+            menu.addItem(.separator())
+
+            let quitItem = NSMenuItem(title: "Quit Dropover", action: #selector(quitApp), keyEquivalent: "")
+            quitItem.target = self
+            menu.addItem(quitItem)
+        } else {
+            let previewItem = NSMenuItem(title: "Open with Preview", action: #selector(openPreview), keyEquivalent: "")
+            previewItem.target = self
+            menu.addItem(previewItem)
+
+            let finderItem = NSMenuItem(title: "Show in Finder", action: #selector(showInFinder), keyEquivalent: "")
+            finderItem.target = self
+            menu.addItem(finderItem)
+
+            menu.addItem(.separator())
+
+            let shareItem = NSMenuItem(title: "Share...", action: #selector(shareAction), keyEquivalent: "")
+            shareItem.target = self
+            menu.addItem(shareItem)
+
+            menu.addItem(.separator())
+
+            let actions = actionEngine.availableActions(for: store.items)
+            for action in actions {
+                let actionItem = NSMenuItem(title: action.displayName, action: #selector(executeBatchAction(_:)), keyEquivalent: "")
+                actionItem.target = self
+                actionItem.representedObject = action
+                menu.addItem(actionItem)
+            }
+
+            if !actions.isEmpty {
+                menu.addItem(.separator())
+            }
+
+            let copyItem = NSMenuItem(title: "Copy Paths", action: #selector(copyPaths), keyEquivalent: "")
+            copyItem.target = self
+            menu.addItem(copyItem)
+
+            let clearItem = NSMenuItem(title: "Clear All Items", action: #selector(clearItems), keyEquivalent: "")
+            clearItem.target = self
+            menu.addItem(clearItem)
+        }
+
+        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    }
+
+    @objc private func newShelf() {
+        ShelfCoordinator.shared.spawnShelfAtCursor()
+    }
+
+    @objc private func quitApp() {
+        NSApp.terminate(nil)
+    }
+
+    @objc private func openPreview() {
+        guard let store = store else { return }
+        QuickLookController.shared.togglePreview(for: store.items)
+    }
+
+    @objc private func showInFinder() {
+        guard let store = store, let first = store.items.first else { return }
+        NSWorkspace.shared.activateFileViewerSelecting([first.url])
+    }
+
+    @objc private func shareAction() {
+        guard let store = store,
+              let window = NSApp.keyWindow ?? NSApp.windows.first,
+              let contentView = window.contentView else { return }
+        SharingServiceBridge.share(items: store.items, relativeTo: contentView, preferredEdge: .minY)
+    }
+
+    @objc private func executeBatchAction(_ sender: NSMenuItem) {
+        guard let store = store,
+              let actionEngine = actionEngine,
+              let action = sender.representedObject as? BatchActionEngine.BatchAction else { return }
+        actionEngine.execute(action, on: store.items) { resultItems in
+            store.removeAll()
+            store.addItems(resultItems)
+        }
+    }
+
+    @objc private func copyPaths() {
+        guard let store = store else { return }
+        let paths = store.items.map(\.url.path).joined(separator: "\n")
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(paths, forType: .string)
+    }
+
+    @objc private func clearItems() {
+        store?.removeAll()
+    }
+}
+

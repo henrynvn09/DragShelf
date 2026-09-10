@@ -21,13 +21,13 @@ struct ShelfContainerView: View {
             // Layer 1: Full-window drag handle (moves shelf everywhere except on active controls & card stack)
             WindowDragHandleView()
 
-            // Layer 2: Sleek Dark Slate Card Background (matching reference Image 2)
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(Color(red: 0.23, green: 0.25, blue: 0.26))
+            // Layer 2: Clean, single-surface Black Theme Card (no double margin)
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(Color(white: 0.09).opacity(0.96))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    RoundedRectangle(cornerRadius: 18, style: .continuous)
                         .stroke(
-                            isDropTargeted ? Color.accentColor : Color.white.opacity(0.14),
+                            isDropTargeted ? Color.accentColor : Color.white.opacity(0.16),
                             lineWidth: isDropTargeted ? 2.0 : 1.0
                         )
                 )
@@ -37,7 +37,7 @@ struct ShelfContainerView: View {
             VStack(spacing: 0) {
                 // Top Bar
                 topBarView
-                    .frame(height: 26)
+                    .frame(height: 24)
 
                 Spacer(minLength: 4)
 
@@ -50,7 +50,7 @@ struct ShelfContainerView: View {
 
                 Spacer(minLength: 4)
 
-                // Bottom: Capsule Count / Filename Badge (or spacer when empty)
+                // Bottom: Capsule Count Badge (or spacer when empty)
                 if !store.isEmpty {
                     countCapsuleBadge
                         .padding(.bottom, 2)
@@ -58,10 +58,10 @@ struct ShelfContainerView: View {
                     Spacer().frame(height: 12)
                 }
             }
-            .padding(12)
+            .padding(10)
         }
-        .frame(width: 175, height: 185)
-        .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+        .frame(width: 165, height: 175)
+        .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         .onDrop(of: [.fileURL, .url, .image, .plainText, .tiff, .png], isTargeted: $isDropTargeted) { providers in
             // Guard: Never accept drops back into ourselves while dragging out!
             guard !DragAllNSView.isDraggingOutActive else { return false }
@@ -80,13 +80,14 @@ struct ShelfContainerView: View {
 
             actionMenuButton
         }
+        .frame(height: 26)
     }
 
     // MARK: - Middle File Region (ONLY region that drags files)
 
     private var centerCardStackRegion: some View {
         CardStackView(items: store.items)
-            .frame(width: 105, height: 105)
+            .frame(width: 105, height: 100)
             .overlay(
                 DragAllRepresentable(
                     items: store.items,
@@ -108,22 +109,22 @@ struct ShelfContainerView: View {
         VStack(spacing: 6) {
             Image(systemName: "arrow.down.doc")
                 .font(.system(size: 24, weight: .light))
-                .foregroundStyle(Color.white.opacity(0.6))
+                .foregroundStyle(Color.white.opacity(0.55))
 
             Text("Drop files here")
                 .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(Color.white.opacity(0.8))
+                .foregroundStyle(Color.white.opacity(0.75))
 
             Text("or shake while dragging")
                 .font(.system(size: 9))
-                .foregroundStyle(Color.white.opacity(0.45))
+                .foregroundStyle(Color.white.opacity(0.38))
         }
         .frame(maxWidth: .infinity)
-        .frame(height: 95)
+        .frame(height: 88)
         .overlay(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .strokeBorder(
-                    Color.white.opacity(0.2),
+                    Color.white.opacity(0.18),
                     style: StrokeStyle(lineWidth: 1.2, dash: [5, 4])
                 )
         )
@@ -131,16 +132,20 @@ struct ShelfContainerView: View {
 
     // MARK: - Buttons & Controls
 
-    /// Light circular close button with dark icon (matching reference Image 2)
+    /// Circular close button (top left)
     private var closeButton: some View {
         Button(action: onClose) {
             ZStack {
                 Circle()
-                    .fill(Color(white: 0.72).opacity(0.85))
-                    .frame(width: 26, height: 26)
+                    .fill(Color.white.opacity(0.24))
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.55), lineWidth: 1.2)
+                    )
                 Image(systemName: "xmark")
                     .font(.system(size: 11, weight: .heavy))
-                    .foregroundColor(Color(white: 0.18))
+                    .foregroundColor(.white)
             }
             .contentShape(Circle())
         }
@@ -148,7 +153,7 @@ struct ShelfContainerView: View {
         .help("Dismiss Shelf")
     }
 
-    /// Light circular 3-dots action menu button with dark icon (matching reference Image 2)
+    /// Circular 3-dots action menu button (top right)
     private var actionMenuButton: some View {
         Menu {
             if store.isEmpty {
@@ -222,48 +227,44 @@ struct ShelfContainerView: View {
         } label: {
             ZStack {
                 Circle()
-                    .fill(Color(white: 0.72).opacity(0.85))
-                    .frame(width: 26, height: 26)
+                    .fill(Color.white.opacity(0.24))
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.55), lineWidth: 1.2)
+                    )
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 12, weight: .heavy))
-                    .foregroundColor(Color(white: 0.18))
+                    .font(.system(size: 14, weight: .heavy))
+                    .foregroundColor(.white)
+                    .shadow(color: Color.white.opacity(0.5), radius: 2, x: 0, y: 0)
             }
             .contentShape(Circle())
         }
         .menuStyle(.borderlessButton)
-        .buttonStyle(.plain)
         .menuIndicator(.hidden)
         .fixedSize()
         .help("Actions Menu")
     }
 
-    /// Frosted capsule badge showing filename / count + light circular chevron (matching Image 2)
+    /// Dark capsule count badge (e.g. "5 Images ⌵")
     private var countCapsuleBadge: some View {
         Button {
             QuickLookController.shared.togglePreview(for: store.items)
         } label: {
-            HStack(spacing: 6) {
-                Text(badgeLabelText(for: store.items))
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.white.opacity(0.95))
-                    .lineLimit(1)
-                    .truncationMode(.middle)
-                    .frame(maxWidth: 110, alignment: .leading)
+            HStack(spacing: 4) {
+                Text(countBadgeText(for: store.items))
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.white.opacity(0.92))
 
-                ZStack {
-                    Circle()
-                        .fill(Color(white: 0.72).opacity(0.85))
-                        .frame(width: 16, height: 16)
-                    Image(systemName: "chevron.down")
-                        .font(.system(size: 8, weight: .heavy))
-                        .foregroundColor(Color(white: 0.18))
-                }
+                Image(systemName: "chevron.down.circle.fill")
+                    .font(.system(size: 11))
+                    .foregroundColor(.white.opacity(0.55))
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4.5)
+            .padding(.horizontal, 9)
+            .padding(.vertical, 3.5)
             .background(
                 Capsule(style: .continuous)
-                    .fill(Color.white.opacity(0.14))
+                    .fill(Color(white: 0.18).opacity(0.88))
             )
             .overlay(
                 Capsule(style: .continuous)
@@ -276,30 +277,25 @@ struct ShelfContainerView: View {
 
     // MARK: - Helpers
 
-    private func badgeLabelText(for items: [StagedItem]) -> String {
-        guard !items.isEmpty else { return "0 Items" }
-
-        // If single item, show the file name (matching Image 2: "Screen S...PM.png")
-        if items.count == 1, let first = items.first {
-            return first.title
-        }
-
+    private func countBadgeText(for items: [StagedItem]) -> String {
         let count = items.count
+        guard count > 0 else { return "0 Items" }
+
         let isAllImages = items.allSatisfy { item in
             let ext = item.url.pathExtension.lowercased()
             return ["jpg", "jpeg", "png", "gif", "heic", "tiff", "webp", "bmp"].contains(ext)
                 || item.kind == .webImage
         }
         if isAllImages {
-            return "\(count) Images"
+            return count == 1 ? "1 Image" : "\(count) Images"
         }
 
         let isAllFiles = items.allSatisfy { $0.kind == .file }
         if isAllFiles {
-            return "\(count) Files"
+            return count == 1 ? "1 File" : "\(count) Files"
         }
 
-        return "\(count) Items"
+        return count == 1 ? "1 Item" : "\(count) Items"
     }
 
     private func shareItems() {
@@ -366,7 +362,6 @@ struct ShelfContainerView: View {
                     guard let data = data as? Data,
                           let url = URL(dataRepresentation: data, relativeTo: nil),
                           !url.isFileURL else { return }
-                    guard !store.containsURL(url) else { return }
                     if let cached = TempCacheManager.shared.cacheURL(url) {
                         let item = StagedItem(url: cached, kind: .url, title: url.absoluteString, fileSize: nil)
                         DispatchQueue.main.async {

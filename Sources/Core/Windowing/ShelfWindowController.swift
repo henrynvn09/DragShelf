@@ -17,7 +17,7 @@ final class ShelfWindowController: NSWindowController {
     // MARK: Initialization
 
     init(store: ShelfStore = ShelfStore()) {
-        let contentRect = NSRect(x: 0, y: 0, width: 175, height: 185)
+        let contentRect = NSRect(x: 0, y: 0, width: 165, height: 175)
         let panel = ShelfPanel(contentRect: contentRect)
         self.shelfStore = store
         super.init(window: panel)

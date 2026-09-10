@@ -6,6 +6,8 @@
     <string>com.dragshelf.app</string>
     <key>CFBundleName</key>
     <string>DragShelf</string>
+    <key>CFBundleExecutable</key>
+    <string>DragShelf</string>
     <key>CFBundleDisplayName</key>
     <string>DragShelf</string>
     <key>CFBundleVersion</key>

@@ -16,14 +16,36 @@ final class ShelfStore: ObservableObject {
         items.isEmpty
     }
 
+    // MARK: Uniqueness Checks
+
+    func containsURL(_ url: URL) -> Bool {
+        if url.isFileURL {
+            let targetPath = url.standardizedFileURL.path
+            return items.contains { $0.url.isFileURL && $0.url.standardizedFileURL.path == targetPath }
+        } else {
+            let targetString = url.absoluteString
+            return items.contains { $0.url.absoluteString == targetString }
+        }
+    }
+
+    func containsItem(_ item: StagedItem) -> Bool {
+        containsURL(item.url)
+    }
+
     // MARK: Mutation Methods
 
     func addItem(_ item: StagedItem) {
+        guard !containsItem(item) else {
+            NSLog("[ShelfStore] ⚠️ Item already staged (duplicate ignored): %@", item.url.lastPathComponent)
+            return
+        }
         items.append(item)
     }
 
     func addItems(_ newItems: [StagedItem]) {
-        items.append(contentsOf: newItems)
+        for item in newItems {
+            addItem(item)
+        }
     }
 
     func removeItem(id: UUID) {

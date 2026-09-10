@@ -311,6 +311,10 @@ struct ShelfContainerView: View {
 
     private func handleDroppedURLs(_ urls: [URL]) {
         for url in urls {
+            guard !store.containsURL(url) else {
+                NSLog("[ShelfContainer] ⚠️ Duplicate URL ignored: %@", url.lastPathComponent)
+                continue
+            }
             let item = StagedItem(
                 url: url,
                 kind: .file,
@@ -335,6 +339,10 @@ struct ShelfContainerView: View {
                 provider.loadItem(forTypeIdentifier: UTType.fileURL.identifier, options: nil) { data, _ in
                     guard let data = data as? Data,
                           let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
+                    guard !store.containsURL(url) else {
+                        NSLog("[ShelfContainer] ⚠️ Duplicate drop ignored: %@", url.lastPathComponent)
+                        return
+                    }
                     let title = url.lastPathComponent
                     let size = Self.fileSizeForURL(url)
                     let item = StagedItem(url: url, kind: .file, title: title, fileSize: size)

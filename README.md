@@ -1,0 +1,103 @@
+<div align="center">
+
+# Dropover
+
+**A lightweight, floating temporary shelf for drag-and-drop on macOS.**  
+*Shake your cursor while dragging files to summon a floating shelf, stash items from multiple places, and drag them all out together.*
+
+<br/>
+
+<a href="https://github.com/henrynvn09/dropover"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-blue.svg?style=flat" alt="platform"/></a>
+<a href="https://github.com/henrynvn09/dropover"><img src="https://img.shields.io/badge/Swift-5.9%2B-orange.svg?style=flat" alt="swift"/></a>
+<a href="https://github.com/henrynvn09/dropover/releases"><img src="https://img.shields.io/badge/release-working--beta--version-purple.svg?style=flat" alt="release"/></a>
+<a href="https://github.com/henrynvn09/dropover/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat" alt="license"/></a>
+
+<br/><br/>
+
+<img src=".github/screenshot.png" width="220" alt="Dropover Shelf Preview"/><br/>
+
+</div>
+
+<hr/>
+
+## Overview
+
+Dragging files across multiple Finder windows, full-screen apps, or desktop spaces on macOS can be clumsy. **Dropover** provides a quick staging area right at your fingertips:
+
+1. **Pick up** any files or web images.
+2. **Shake** your cursor — a compact dark shelf appears immediately under your pointer.
+3. **Drop** the items onto the shelf.
+4. Navigate comfortably to your destination and **drag the stack out** to drop everything at once.
+
+---
+
+## Major Features
+
+- 🖱️ **Shake to Summon**: Detects deliberate cursor wiggling while dragging files. Includes hardware pasteboard gating to completely ignore casual clicks and Finder marquee selection boxes.
+- 🗂️ **Authentic Card Stack UI**: Displays collected files as a physical, overlapping photo stack with clean white borders, drop shadows, and QuickLook thumbnail previews.
+- 📦 **Batch Drag-Out**: Click and drag the center card stack to seamlessly drop all staged items into Finder, Desktop, Mail, or any external application. The shelf automatically dismisses upon completion.
+- 🛡️ **Self-Drop Protection**: Dragging items back over the shelf or cancelling a drag will never swallow or clear your files — items remain safely staged on the shelf.
+- 🚫 **Duplicate Prevention**: Dropping identical files or URLs will not create duplicates or increment the badge count.
+- ✋ **Draggable Shelf**: Click and hold anywhere on the shelf card background to smoothly move the window across your screens (shows an interactive `✋` hand cursor).
+- ⚡ **Built-In Actions Menu**:
+  - **Open with Preview**: Quick Look multi-item preview.
+  - **Show in Finder**: Instantly reveal the staged files.
+  - **Batch Operations**: Compress to ZIP, OCR text recognition, image format conversion (PNG/JPEG), and metadata stripping.
+  - **Share & Copy**: Native macOS Share sheet integration and one-click path copying.
+- 🪶 **Lightweight & Private**: Zero cloud dependencies, zero analytics, menu-bar accessory mode only (`LSUIElement`).
+
+---
+
+## How to Use
+
+| Action | Gesture / Step |
+| :--- | :--- |
+| **Summon Shelf** | Drag any file(s) and wiggle your cursor back and forth quickly. |
+| **Stage Items** | Drop files, images, links, or text clippings onto the shelf card. |
+| **Move the Shelf** | Click and drag anywhere on the black card background or top bar. |
+| **Pull Files Out** | Click and drag the center card stack into Finder or another application. |
+| **Quick Look** | Click the bottom count capsule badge (e.g. `3 Files ⌵`). |
+| **Actions Menu** | Click the `...` button on the top right. |
+| **Dismiss Shelf** | Click the `✕` button on the top left. |
+
+---
+
+## System Requirements & Permissions
+
+- **macOS 14.0 Sonoma** or later (Apple Silicon & Intel supported).
+- **Accessibility Permission**: Required for global cursor drag and shake detection.
+  - When you first launch the app, macOS will prompt you to grant Accessibility access under:  
+    `System Settings` → `Privacy & Security` → `Accessibility` → Enable **DropoverClone**.
+
+---
+
+## Building from Source
+
+Build and package the app using the standard Swift Package Manager:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/henrynvn09/dropover.git
+cd dropover
+
+# 2. Compile debug or release binary
+swift build -c release
+
+# 3. Copy binary into app bundle (or run directly)
+.build/release/DropoverClone
+```
+
+---
+
+## Architecture
+
+- **`EventTapManager` & `ShakeDetector`**: High-frequency hardware cursor monitoring with pasteboard verification to guarantee zero false triggers during regular window clicks or text selection.
+- **`ShelfPanel` & `ShelfWindowController`**: Floating HUD panel with coordinate clamping, multi-space collection behavior, and animated entry/exit.
+- **`ShelfStore`**: Centralized reactive observable store managing item staging, thumbnail caching, and URL deduplication.
+- **`DragAllRepresentable`**: Native AppKit `NSDraggingSource` & `NSDraggingDestination` bridge facilitating multi-file drag-and-drop operations with external applications.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).

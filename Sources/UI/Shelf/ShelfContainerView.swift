@@ -137,14 +137,14 @@ struct ShelfContainerView: View {
         Button(action: onClose) {
             ZStack {
                 Circle()
-                    .fill(Color.white.opacity(0.24))
-                    .frame(width: 24, height: 24)
+                    .fill(Color(white: 0.28).opacity(0.85))
+                    .frame(width: 26, height: 26)
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.55), lineWidth: 1.2)
+                            .stroke(Color.white.opacity(0.38), lineWidth: 1.2)
                     )
                 Image(systemName: "xmark")
-                    .font(.system(size: 11, weight: .heavy))
+                    .font(.system(size: 11, weight: .bold))
                     .foregroundColor(.white)
             }
             .contentShape(Circle())
@@ -160,14 +160,14 @@ struct ShelfContainerView: View {
         } label: {
             ZStack {
                 Circle()
-                    .fill(Color.white.opacity(0.24))
-                    .frame(width: 24, height: 24)
+                    .fill(Color(white: 0.28).opacity(0.85))
+                    .frame(width: 26, height: 26)
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.55), lineWidth: 1.2)
+                            .stroke(Color.white.opacity(0.38), lineWidth: 1.2)
                     )
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 13, weight: .black))
+                    .font(.system(size: 13, weight: .bold))
                     .foregroundColor(.white)
             }
             .contentShape(Circle())
@@ -181,24 +181,24 @@ struct ShelfContainerView: View {
         Button {
             QuickLookController.shared.togglePreview(for: store.items)
         } label: {
-            HStack(spacing: 4) {
+            HStack(spacing: 5) {
                 Text(countBadgeText(for: store.items))
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundColor(.white.opacity(0.92))
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.white)
 
                 Image(systemName: "chevron.down.circle.fill")
-                    .font(.system(size: 11))
-                    .foregroundColor(.white.opacity(0.55))
+                    .font(.system(size: 12))
+                    .foregroundColor(.white.opacity(0.52))
             }
-            .padding(.horizontal, 9)
-            .padding(.vertical, 3.5)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
             .background(
                 Capsule(style: .continuous)
-                    .fill(Color(white: 0.18).opacity(0.88))
+                    .fill(Color(white: 0.20).opacity(0.90))
             )
             .overlay(
                 Capsule(style: .continuous)
-                    .stroke(Color.white.opacity(0.18), lineWidth: 0.5)
+                    .stroke(Color.white.opacity(0.20), lineWidth: 0.6)
             )
         }
         .buttonStyle(.plain)

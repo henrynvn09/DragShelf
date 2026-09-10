@@ -1,4 +1,5 @@
 <div align="center">
+<img src="Resources/AppIcon.png" width="120" height="120" alt="DragShelf App Icon"/><br/>
 
 # DragShelf
 

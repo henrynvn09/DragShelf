@@ -78,10 +78,9 @@ struct ShelfContainerView: View {
 
             Spacer() // Clicks pass through to WindowDragHandleView to move the shelf!
 
-            if !store.isEmpty {
-                actionMenuButton
-            }
+            actionMenuButton
         }
+        .frame(height: 26)
     }
 
     // MARK: - Middle File Region (ONLY region that drags files)
@@ -133,19 +132,19 @@ struct ShelfContainerView: View {
 
     // MARK: - Buttons & Controls
 
-    /// Circular dark close button (top left)
+    /// Circular close button (top left)
     private var closeButton: some View {
         Button(action: onClose) {
             ZStack {
                 Circle()
-                    .fill(Color.white.opacity(0.22))
+                    .fill(Color(white: 0.38))
                     .frame(width: 24, height: 24)
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.35), lineWidth: 1)
+                            .stroke(Color.white.opacity(0.45), lineWidth: 1)
                     )
                 Image(systemName: "xmark")
-                    .font(.system(size: 10, weight: .bold))
+                    .font(.system(size: 11, weight: .bold))
                     .foregroundColor(.white)
             }
             .contentShape(Circle())
@@ -157,66 +156,82 @@ struct ShelfContainerView: View {
     /// Circular 3-dots action menu button (top right)
     private var actionMenuButton: some View {
         Menu {
-            Button {
-                QuickLookController.shared.togglePreview(for: store.items)
-            } label: {
-                Label("Open with Preview", systemImage: "eye")
-            }
-
-            Button {
-                if let first = store.items.first {
-                    NSWorkspace.shared.activateFileViewerSelecting([first.url])
+            if store.isEmpty {
+                Button {
+                    ShelfCoordinator.shared.spawnShelfAtCursor()
+                } label: {
+                    Label("New Shelf", systemImage: "plus.rectangle.on.rectangle")
                 }
-            } label: {
-                Label("Show in Finder", systemImage: "folder")
-            }
 
-            Divider()
+                Divider()
 
-            Button {
-                shareItems()
-            } label: {
-                Label("Share...", systemImage: "square.and.arrow.up")
-            }
+                Button {
+                    NSApp.terminate(nil)
+                } label: {
+                    Label("Quit Dropover", systemImage: "power")
+                }
+            } else {
+                Button {
+                    QuickLookController.shared.togglePreview(for: store.items)
+                } label: {
+                    Label("Open with Preview", systemImage: "eye")
+                }
 
-            Divider()
+                Button {
+                    if let first = store.items.first {
+                        NSWorkspace.shared.activateFileViewerSelecting([first.url])
+                    }
+                } label: {
+                    Label("Show in Finder", systemImage: "folder")
+                }
 
-            let actions = actionEngine.availableActions(for: store.items)
-            if !actions.isEmpty {
-                Section("Actions") {
-                    ForEach(actions) { action in
-                        Button {
-                            actionEngine.execute(action, on: store.items) { resultItems in
-                                store.removeAll()
-                                store.addItems(resultItems)
+                Divider()
+
+                Button {
+                    shareItems()
+                } label: {
+                    Label("Share...", systemImage: "square.and.arrow.up")
+                }
+
+                Divider()
+
+                let actions = actionEngine.availableActions(for: store.items)
+                if !actions.isEmpty {
+                    Section("Actions") {
+                        ForEach(actions) { action in
+                            Button {
+                                actionEngine.execute(action, on: store.items) { resultItems in
+                                    store.removeAll()
+                                    store.addItems(resultItems)
+                                }
+                            } label: {
+                                Label(action.displayName, systemImage: action.systemImage)
                             }
-                        } label: {
-                            Label(action.displayName, systemImage: action.systemImage)
                         }
                     }
+                    Divider()
                 }
-                Divider()
-            }
 
-            Button {
-                copyPathsToClipboard()
-            } label: {
-                Label("Copy Paths", systemImage: "doc.on.clipboard")
-            }
+                Button {
+                    copyPathsToClipboard()
+                } label: {
+                    Label("Copy Paths", systemImage: "doc.on.clipboard")
+                }
 
-            Button(role: .destructive) {
-                store.removeAll()
-            } label: {
-                Label("Clear All Items", systemImage: "trash")
+                Button(role: .destructive) {
+                    store.removeAll()
+                } label: {
+                    Label("Clear All Items", systemImage: "trash")
+                }
             }
         } label: {
             ZStack {
                 Circle()
-                    .fill(Color.white.opacity(0.28))
+                    .fill(Color(white: 0.38))
                     .frame(width: 24, height: 24)
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.42), lineWidth: 1)
+                            .stroke(Color.white.opacity(0.45), lineWidth: 1)
                     )
                 Image(systemName: "ellipsis")
                     .font(.system(size: 12, weight: .bold))

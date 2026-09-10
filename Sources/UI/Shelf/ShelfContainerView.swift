@@ -138,12 +138,17 @@ struct ShelfContainerView: View {
         Button(action: onClose) {
             ZStack {
                 Circle()
-                    .fill(Color(white: 0.22).opacity(0.8))
-                    .frame(width: 22, height: 22)
+                    .fill(Color.white.opacity(0.22))
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.35), lineWidth: 1)
+                    )
                 Image(systemName: "xmark")
                     .font(.system(size: 10, weight: .bold))
-                    .foregroundColor(.white.opacity(0.95))
+                    .foregroundColor(.white)
             }
+            .contentShape(Circle())
         }
         .buttonStyle(.plain)
         .help("Dismiss Shelf")
@@ -207,12 +212,17 @@ struct ShelfContainerView: View {
         } label: {
             ZStack {
                 Circle()
-                    .fill(Color(white: 0.22).opacity(0.8))
-                    .frame(width: 22, height: 22)
+                    .fill(Color.white.opacity(0.28))
+                    .frame(width: 24, height: 24)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.42), lineWidth: 1)
+                    )
                 Image(systemName: "ellipsis")
-                    .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.95))
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(.white)
             }
+            .contentShape(Circle())
         }
         .menuStyle(.borderlessButton)
         .menuIndicator(.hidden)

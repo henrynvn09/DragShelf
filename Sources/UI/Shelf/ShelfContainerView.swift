@@ -375,7 +375,7 @@ final class ActionMenuHelper: NSObject {
 
             menu.addItem(.separator())
 
-            let quitItem = NSMenuItem(title: "Quit Dropover", action: #selector(quitApp), keyEquivalent: "")
+            let quitItem = NSMenuItem(title: "Quit DragShelf", action: #selector(quitApp), keyEquivalent: "")
             quitItem.target = self
             menu.addItem(quitItem)
         } else {

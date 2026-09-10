@@ -2,7 +2,7 @@ import SwiftUI
 import AppKit
 
 /// Renders staged items as a physical photo/card stack with white borders
-/// and subtle drop shadows, matching Dropover's iconic design.
+/// and subtle drop shadows, matching DragShelf's iconic design.
 struct CardStackView: View {
     let items: [StagedItem]
 

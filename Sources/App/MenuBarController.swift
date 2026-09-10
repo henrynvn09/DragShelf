@@ -16,7 +16,7 @@ final class MenuBarController {
         if let button = statusItem.button {
             button.image = NSImage(
                 systemSymbolName: "tray.and.arrow.down",
-                accessibilityDescription: "Dropover Clone"
+                accessibilityDescription: "DragShelf"
             )
         }
 

@@ -3,13 +3,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "DropoverClone",
+    name: "DragShelf",
     platforms: [
         .macOS(.v14)
     ],
     targets: [
         .executableTarget(
-            name: "DropoverClone",
+            name: "DragShelf",
             path: "Sources",
             resources: [
                 .process("../Resources")

@@ -17,7 +17,7 @@ final class TempCacheManager {
 
     init() {
         let base = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
-        cacheDirectory = base.appendingPathComponent("com.dropoverclone/temp", isDirectory: true)
+        cacheDirectory = base.appendingPathComponent("com.dragshelf/temp", isDirectory: true)
 
         // Create the directory tree if it doesn't exist.
         try? FileManager.default.createDirectory(

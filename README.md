@@ -1,20 +1,20 @@
 <div align="center">
 
-# Dropover
+# DragShelf
 
 **A lightweight, floating temporary shelf for drag-and-drop on macOS.**  
 *Shake your cursor while dragging files to summon a floating shelf, stash items from multiple places, and drag them all out together.*
 
 <br/>
 
-<a href="https://github.com/henrynvn09/dropover"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-blue.svg?style=flat" alt="platform"/></a>
-<a href="https://github.com/henrynvn09/dropover"><img src="https://img.shields.io/badge/Swift-5.9%2B-orange.svg?style=flat" alt="swift"/></a>
-<a href="https://github.com/henrynvn09/dropover/releases"><img src="https://img.shields.io/badge/release-working--beta--version-purple.svg?style=flat" alt="release"/></a>
-<a href="https://github.com/henrynvn09/dropover/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat" alt="license"/></a>
+<a href="https://github.com/henrynvn09/dragshelf"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-blue.svg?style=flat" alt="platform"/></a>
+<a href="https://github.com/henrynvn09/dragshelf"><img src="https://img.shields.io/badge/Swift-5.9%2B-orange.svg?style=flat" alt="swift"/></a>
+<a href="https://github.com/henrynvn09/dragshelf/releases"><img src="https://img.shields.io/badge/release-working--beta--version-purple.svg?style=flat" alt="release"/></a>
+<a href="https://github.com/henrynvn09/dragshelf/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat" alt="license"/></a>
 
 <br/><br/>
 
-<img src=".github/screenshot.png" width="220" alt="Dropover Shelf Preview"/><br/>
+<img src=".github/screenshot.png" width="220" alt="DragShelf Preview"/><br/>
 
 </div>
 
@@ -22,7 +22,7 @@
 
 ## Overview
 
-Dragging files across multiple Finder windows, full-screen apps, or desktop spaces on macOS can be clumsy. **Dropover** provides a quick staging area right at your fingertips:
+Dragging files across multiple Finder windows, full-screen apps, or desktop spaces on macOS can be clumsy. **DragShelf** provides a quick staging area right at your fingertips:
 
 1. **Pick up** any files or web images.
 2. **Shake** your cursor — a compact dark shelf appears immediately under your pointer.
@@ -67,7 +67,7 @@ Dragging files across multiple Finder windows, full-screen apps, or desktop spac
 - **macOS 14.0 Sonoma** or later (Apple Silicon & Intel supported).
 - **Accessibility Permission**: Required for global cursor drag and shake detection.
   - When you first launch the app, macOS will prompt you to grant Accessibility access under:  
-    `System Settings` → `Privacy & Security` → `Accessibility` → Enable **DropoverClone**.
+    `System Settings` → `Privacy & Security` → `Accessibility` → Enable **DragShelf**.
 
 ---
 
@@ -77,14 +77,14 @@ Build and package the app using the standard Swift Package Manager:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/henrynvn09/dropover.git
-cd dropover
+git clone https://github.com/henrynvn09/dragshelf.git
+cd dragshelf
 
 # 2. Compile debug or release binary
 swift build -c release
 
 # 3. Copy binary into app bundle (or run directly)
-.build/release/DropoverClone
+.build/release/DragShelf
 ```
 
 ---

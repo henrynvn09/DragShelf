@@ -2,9 +2,9 @@ import AppKit
 
 // Entry point — manual NSApplication bootstrap (no @main attribute)
 
-NSLog("[DropoverClone] 🚀 Binary starting...")
+NSLog("[DragShelf] 🚀 Binary starting...")
 let app = NSApplication.shared
 let delegate = AppDelegate()
 app.delegate = delegate
-NSLog("[DropoverClone] 🚀 Calling app.run()")
+NSLog("[DragShelf] 🚀 Calling app.run()")
 app.run()

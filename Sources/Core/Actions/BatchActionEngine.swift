@@ -95,7 +95,7 @@ final class BatchActionEngine: ObservableObject {
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let outputDirectory = FileManager.default.temporaryDirectory
-                .appendingPathComponent("Dropover-\(UUID().uuidString)", isDirectory: true)
+                .appendingPathComponent("DragShelf-\(UUID().uuidString)", isDirectory: true)
             try? FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
 
             var resultItems: [StagedItem] = []

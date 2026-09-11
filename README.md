@@ -8,10 +8,10 @@
 
 <br/>
 
-<a href="https://github.com/henrynvn09/dragshelf"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-blue.svg?style=flat" alt="platform"/></a>
-<a href="https://github.com/henrynvn09/dragshelf"><img src="https://img.shields.io/badge/Swift-5.9%2B-orange.svg?style=flat" alt="swift"/></a>
-<a href="https://github.com/henrynvn09/dragshelf/releases"><img src="https://img.shields.io/badge/release-v1.0.0-purple.svg?style=flat" alt="release"/></a>
-<a href="https://github.com/henrynvn09/dragshelf/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat" alt="license"/></a>
+<a href="https://github.com/henrynvn09/DragShelf"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-blue.svg?style=flat" alt="platform"/></a>
+<a href="https://github.com/henrynvn09/DragShelf"><img src="https://img.shields.io/badge/Swift-5.9%2B-orange.svg?style=flat" alt="swift"/></a>
+<a href="https://github.com/henrynvn09/DragShelf/releases/tag/v1.0.0"><img src="https://img.shields.io/badge/release-v1.0.0-purple.svg?style=flat" alt="release"/></a>
+<a href="https://github.com/henrynvn09/DragShelf/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat" alt="license"/></a>
 
 <br/><br/>
 
@@ -78,9 +78,11 @@ Dragging files across multiple Finder windows, full-screen apps, or desktop spac
 ## Installation (For All Users)
 
 ### Option 1: Direct Download (DMG or ZIP)
-
-1. **Download the latest release**:
-   - Download [`DragShelf-v1.0.0.dmg`](https://github.com/henrynvn09/dragshelf/releases/latest) or [`DragShelf-v1.0.0.zip`](https://github.com/henrynvn09/dragshelf/releases/latest).
+ 
+ 1. **Download the latest release**:
+    - [**DragShelf-v1.0.0.dmg**](https://github.com/henrynvn09/DragShelf/releases/download/v1.0.0/DragShelf-v1.0.0.dmg) *(Recommended disk image with drag-to-Applications installer)*
+    - [**DragShelf-v1.0.0.zip**](https://github.com/henrynvn09/DragShelf/releases/download/v1.0.0/DragShelf-v1.0.0.zip) *(Portable application archive)*
+    - View all versions on the [Releases Page](https://github.com/henrynvn09/DragShelf/releases).
 2. **Install**:
    - Open the `.dmg` disk image and drag **DragShelf** to your **Applications** folder.
    - *(If downloading `.zip`, double-click to expand and move `DragShelf.app` to Applications).*

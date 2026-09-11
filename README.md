@@ -15,11 +15,8 @@
 
 <br/><br/>
 
-<video src=".github/demo.mp4" controls="controls" muted="muted" playsinline="playsinline" width="600" poster=".github/screenshot.png">
-  <source src=".github/demo.mp4" type="video/mp4">
-  <img src=".github/screenshot.png" width="220" alt="DragShelf Preview"/>
-</video>
-<br/>
+https://github.com/henrynvn09/DragShelf/raw/main/.github/demo.mp4
+
 <p><sub><em>🎥 Shake to summon, drop items, and drag stack out all together.</em></sub></p>
 
 </div>

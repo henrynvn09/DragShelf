@@ -10,7 +10,7 @@
 
 <a href="https://github.com/henrynvn09/dragshelf"><img src="https://img.shields.io/badge/platform-macOS%2014%2B-blue.svg?style=flat" alt="platform"/></a>
 <a href="https://github.com/henrynvn09/dragshelf"><img src="https://img.shields.io/badge/Swift-5.9%2B-orange.svg?style=flat" alt="swift"/></a>
-<a href="https://github.com/henrynvn09/dragshelf/releases"><img src="https://img.shields.io/badge/release-working--beta--version-purple.svg?style=flat" alt="release"/></a>
+<a href="https://github.com/henrynvn09/dragshelf/releases"><img src="https://img.shields.io/badge/release-v1.0.0-purple.svg?style=flat" alt="release"/></a>
 <a href="https://github.com/henrynvn09/dragshelf/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat" alt="license"/></a>
 
 <br/><br/>
@@ -75,9 +75,29 @@ Dragging files across multiple Finder windows, full-screen apps, or desktop spac
   - When you first launch the app, macOS will prompt you to grant Accessibility access under:  
     `System Settings` → `Privacy & Security` → `Accessibility` → Enable **DragShelf**.
 
+## Installation (For All Users)
+
+### Option 1: Direct Download (DMG or ZIP)
+
+1. **Download the latest release**:
+   - Download [`DragShelf-v1.0.0.dmg`](https://github.com/henrynvn09/dragshelf/releases/latest) or [`DragShelf-v1.0.0.zip`](https://github.com/henrynvn09/dragshelf/releases/latest).
+2. **Install**:
+   - Open the `.dmg` disk image and drag **DragShelf** to your **Applications** folder.
+   - *(If downloading `.zip`, double-click to expand and move `DragShelf.app` to Applications).*
+3. **Open the App (First-Time Gatekeeper Note)**:
+   - Because DragShelf is an independent open-source project without a paid Apple Developer certificate, macOS Gatekeeper may show a warning on first launch.
+   - **Right-click (or Control-click)** `DragShelf` in your Applications folder and click **Open**, then click **Open** in the confirmation popup.
+   - *Alternatively*: Go to **System Settings** → **Privacy & Security**, scroll down to the Security section, and click **Open Anyway**.
+4. **Enable Accessibility Permission**:
+   - DragShelf requires Accessibility access to detect mouse drag shakes across apps.
+   - When prompted, click **Open System Settings** (or navigate to **System Settings** → **Privacy & Security** → **Accessibility**).
+   - Toggle the switch next to **DragShelf** to **ON**.
+5. **You're all set!**
+   - Pick up any file or image, shake your cursor back and forth, and stash your items.
+
 ---
 
-## Building from Source
+## Building from Source (For Developers)
 
 Build and package the app using the standard Swift Package Manager:
 
